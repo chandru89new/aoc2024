@@ -65,7 +65,9 @@ executable aoc2024
                     Day2,
                     Day3,
                     Day4,
-                    Day5
+                    Day5,
+                    Day6,
+                    Utils
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -74,7 +76,9 @@ executable aoc2024
     build-depends:    base ^>=4.17.2.1,
                       regex-pcre,
                       raw-strings-qq,
-                      split
+                      split,
+                      containers,
+                      parallel
 
     -- Directories containing source files.
     hs-source-dirs:   app

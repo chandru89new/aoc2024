@@ -47,11 +47,6 @@ mkLevels level =
   let lwidx = foldl (\xs l -> xs ++ [(length xs, l)]) [] level
    in foldl (\acc l -> acc ++ [map snd (filter (/= l) lwidx)]) [] lwidx
 
--- [1,2,3,4,5]
--- [(0,1),(1,2)..]
--- [[(1,2),(2,3)..],[(0,1),..],[...]]
--- [[2,3..],[]]
-
 part1 = do
   input <- readFile "app/day2input.txt"
   let ls = lines input

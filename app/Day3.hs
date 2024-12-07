@@ -3,13 +3,10 @@
 
 module Day3 where
 
--- For raw string literals
-
 import Data.List (isInfixOf)
 import Text.RawString.QQ
 import Text.Regex.PCRE
 
--- getMatches :: String -> Maybe (Int, Int)
 getMatches testString = case (testString =~ [r|mul\((-?\d+),(-?\d+)\)|]) :: [[String]] of
   [] -> []
   xs -> map f xs
@@ -18,8 +15,6 @@ getMatches testString = case (testString =~ [r|mul\((-?\d+),(-?\d+)\)|]) :: [[St
       f _ = Nothing
 
 data Instruction = Do | Dont | Mul (Int, Int) | Invalid deriving (Show, Eq)
-
--- getInstructions' str = (str =~ [r|(mul\((-?\d+),(-?\d+)\)|(do\(\))|(don't\(\)))|]) :: [[String]]
 
 getInstructions str = case (str =~ [r|(mul\((-?\d+),(-?\d+)\)|(do\(\))|(don't\(\)))|]) :: [[String]] of
   [] -> []

@@ -42,7 +42,3 @@ mkUpdateLineValid rules updateLine
 part2 = do
   (rulesList, updatesList) <- readInput
   return $ sum $ map (getMiddle . mkUpdateLineValid rulesList) $ filter (not . isValidUpdate rulesList) updatesList
-
--- print $ mkUpdateLineValid rulesList "97,75,29,47,13"
-
--- return $ map (intercalate "," . mkUpdateLineValid rulesList . fst) (filter (\(_, u) -> not $ isValidUpdate rulesList u) updatePairs)
