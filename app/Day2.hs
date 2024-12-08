@@ -1,9 +1,5 @@
 module Day2 where
 
-minDiff = 1
-
-maxDiff = 3
-
 data Trend = Decreasing | Increasing | Invalid deriving (Eq, Show)
 
 getTrend (f : s : _)
@@ -33,12 +29,7 @@ isSafeLevel' isTopLevel level =
   let trend = getTrend level
       pairs = pairUp level
       topLevelRes = foldl (f trend) True pairs
-   in if topLevelRes
-        then True
-        else
-          if not isTopLevel
-            then False
-            else foldl f' False (mkLevels level)
+   in (topLevelRes || (isTopLevel && foldl f' False (mkLevels level)))
   where
     f t b pair = b && isValid pair t
     f' b l = b || isSafeLevel' False l
