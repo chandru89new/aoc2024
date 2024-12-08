@@ -13,7 +13,7 @@ readInput = do
 
 part1 = do
   (sp, ter) <- readInput
-  print . length $ getwalkedlist sp ter []
+  pure $ length $ getwalkedlist sp ter []
 
 part2 = do
   (sp, ter) <- readInput
