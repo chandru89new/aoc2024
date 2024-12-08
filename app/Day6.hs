@@ -1,11 +1,8 @@
 module Day6 where
 
-import Control.Parallel.Strategies (parList, rpar, using)
-import Data.List (intercalate, nub, sortBy)
-import Data.List.Split (chunksOf)
+import Control.Concurrent.Async (mapConcurrently)
+import Data.List (nub)
 import qualified Data.Map as M
-import Data.Maybe (catMaybes, fromMaybe, mapMaybe)
-import Debug.Trace
 import Utils (foldInput)
 
 readInput = do
@@ -21,7 +18,8 @@ part1 = do
 part2 = do
   (sp, ter) <- readInput
   let newMaps = map (\w -> M.insert w '#' ter) $ getwalkedlist sp ter []
-  pure $ length $ filter (loops sp []) newMaps
+  res <- mapConcurrently (pure . loops sp []) newMaps
+  pure $ length $ filter id res
 
 getwalkedlist sp@(x, y, dir) ter walked =
   let firstobst = getNextObstacle ter sp
