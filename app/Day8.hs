@@ -13,14 +13,14 @@ part1 = do
   g <- pure . groups $ towerslist terrain
   let pairs = concatMap combinations g
       finalterrain = foldl addantinode terrain pairs
-  print $ M.size $ M.filterWithKey (\_ v -> v == '#') finalterrain
+  pure $ M.size $ M.filterWithKey (\_ v -> v == '#') finalterrain
 
 part2 = do
   terrain <- readInput
   g <- pure . groups $ towerslist terrain
   let pairs = concatMap combinations g
       finalterrain = foldl addantinode2 terrain pairs
-  print $ M.size $ M.filterWithKey (\_ v -> v == '#') finalterrain
+  pure $ M.size $ M.filterWithKey (\_ v -> v == '#') finalterrain
 
 -- print $ M.size $ M.filterWithKey (\_ v -> v == '#') $ foldl addantinode2 terrain pairs
 
