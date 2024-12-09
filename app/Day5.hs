@@ -4,7 +4,7 @@ import Data.Foldable (Foldable (foldl'))
 import Data.List (intercalate)
 import Data.List.Split
 
-readInput = do
+readinput = do
   rules <- readFile "app/day5input-rules.txt" >>= pure . lines
   updates <- readFile "app/day5input-updates.txt" >>= pure . lines
   return (rules, updates)
@@ -24,7 +24,7 @@ getMiddle updateLine =
    in numsList !! (length numsList `div` 2)
 
 part1 = do
-  (rulesList, updatesList) <- readInput
+  (rulesList, updatesList) <- readinput
   return $ sum $ map getMiddle $ filter (isValidUpdate rulesList) updatesList
 
 mkUpdateLineValid rules updateLine
@@ -40,5 +40,5 @@ mkUpdateLineValid rules updateLine
     joinLine = intercalate ","
 
 part2 = do
-  (rulesList, updatesList) <- readInput
+  (rulesList, updatesList) <- readinput
   return $ sum $ map (getMiddle . mkUpdateLineValid rulesList) $ filter (not . isValidUpdate rulesList) updatesList

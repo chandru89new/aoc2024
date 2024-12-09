@@ -8,6 +8,7 @@ import qualified Day4 as D4
 import qualified Day5 as D5
 import qualified Day6 as D6
 import qualified Day7 as D7
+import qualified Day8 as D8
 import System.Environment (getArgs)
 import System.IO
 
@@ -45,6 +46,10 @@ main = do
     7 -> do
       p1 <- D7.part1
       p2 <- D7.part2
+      showResults p1 p2
+    8 -> do
+      p1 <- D8.part1
+      p2 <- D8.part2
       showResults p1 p2
     _ -> putStrLn "Invalid day"
 
