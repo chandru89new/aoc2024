@@ -9,36 +9,36 @@ readinput = do
   updates <- readFile "app/day5input-updates.txt" >>= pure . lines
   return (rules, updates)
 
-mkUpdatePairs updatesStr = reverse $ go [] $ splitOn "," updatesStr
+mkupdatepairs updatesstr = reverse $ go [] $ splitOn "," updatesstr
   where
     go acc (a : b : rest) = go ((a ++ "|" ++ b) : acc) (b : rest)
     go acc _ = acc
 
-isValidUpdate rules updateLine =
-  foldl' f True (mkUpdatePairs updateLine)
+isvalidupdate rules updateline =
+  foldl' f True (mkupdatepairs updateline)
   where
-    f bool updatePair = bool && updatePair `elem` rules
+    f bool updatepair = bool && updatepair `elem` rules
 
-getMiddle updateLine =
-  let numsList = map (read :: String -> Int) (splitOn "," updateLine)
-   in numsList !! (length numsList `div` 2)
+getmiddle updateline =
+  let numslist = map (read :: String -> Int) (splitOn "," updateline)
+   in numslist !! (length numslist `div` 2)
 
 part1 = do
-  (rulesList, updatesList) <- readinput
-  return $ sum $ map getMiddle $ filter (isValidUpdate rulesList) updatesList
+  (ruleslist, updateslist) <- readinput
+  return $ sum $ map getmiddle $ filter (isvalidupdate ruleslist) updateslist
 
-mkUpdateLineValid rules updateLine
-  | isValidUpdate rules updateLine = updateLine
-  | otherwise = fixLine [] (splitOn "," updateLine)
+mkupdatelinevalid rules updateline
+  | isvalidupdate rules updateline = updateline
+  | otherwise = fixline [] (splitOn "," updateline)
   where
-    fixLine acc (a : b : rest) = fixLine (acc ++ [fst (fixed a b)]) (snd (fixed a b) : rest)
-    fixLine acc [x] = mkUpdateLineValid rules $ joinLine (acc ++ [x])
-    fixLine acc [] = mkUpdateLineValid rules $ joinLine acc
+    fixline acc (a : b : rest) = fixline (acc ++ [fst (fixed a b)]) (snd (fixed a b) : rest)
+    fixline acc [x] = mkupdatelinevalid rules $ joinline (acc ++ [x])
+    fixline acc [] = mkupdatelinevalid rules $ joinline acc
 
     fixed a b = if (a ++ "|" ++ b) `elem` rules then (a, b) else (b, a)
 
-    joinLine = intercalate ","
+    joinline = intercalate ","
 
 part2 = do
-  (rulesList, updatesList) <- readinput
-  return $ sum $ map (getMiddle . mkUpdateLineValid rulesList) $ filter (not . isValidUpdate rulesList) updatesList
+  (ruleslist, updateslist) <- readinput
+  return $ sum $ map (getmiddle . mkupdatelinevalid ruleslist) $ filter (not . isvalidupdate ruleslist) updateslist

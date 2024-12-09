@@ -2,10 +2,10 @@ module Day1 where
 
 import Data.List
 
-tupleSort :: ([Int], [Int]) -> ([Int], [Int])
-tupleSort (as, bs) = (sort as, sort bs)
+tuplesort :: ([Int], [Int]) -> ([Int], [Int])
+tuplesort (as, bs) = (sort as, sort bs)
 
-asPairs (as, bs) = go [] as bs
+aspairs (as, bs) = go [] as bs
   where
     go acc [] _ = acc
     go acc _ [] = acc
@@ -16,13 +16,17 @@ diffs xs = go [] xs
     go acc [] = acc
     go acc ((a, b) : rest) = go (abs (a - b) : acc) rest
 
+getsimcore xs x = (* x) $ length $ filter (== x) xs
+
+simscores (as, bs) = map (getsimcore bs) as
+
 part1 = do
   input <- readFile "app/day1input.txt"
   return
     $ sum
     $ diffs
-    $ asPairs
-    $ tupleSort
+    $ aspairs
+    $ tuplesort
     $ foldl
       ( \(as, bs) ns -> case map read ns of
           (a : b : _) -> (a : as, b : bs)
@@ -32,16 +36,12 @@ part1 = do
     $ map words
     $ lines input
 
-getSimScore xs x = (* x) $ length $ filter (== x) xs
-
-simScores (as, bs) = map (getSimScore bs) as
-
 part2 = do
   input <- readFile "app/day1input.txt"
   return
     $ sum
-    $ simScores
-    $ tupleSort
+    $ simscores
+    $ tuplesort
     $ foldl
       ( \(as, bs) ns -> case map read ns of
           (a : b : _) -> (a : as, b : bs)

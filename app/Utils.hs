@@ -1,14 +1,14 @@
 module Utils where
 
-foldInput :: a -> (Int -> Int -> Char -> a -> a) -> String -> a
-foldInput initValue updateFn str = go 0 initValue $ lines str
+foldinput :: a -> (Int -> Int -> Char -> a -> a) -> String -> a
+foldinput initvalue updatefn str = go 0 initvalue $ lines str
   where
     -- go :: Int -> a -> [String] -> a
     go _ acc [] = acc
-    go lineIdx acc (line : rest) = go (lineIdx + 1) (foldLine acc (updateFn lineIdx) line) rest
+    go lineidx acc (line : rest) = go (lineidx + 1) (foldline acc (updatefn lineidx) line) rest
 
-    foldLine :: a -> (Int -> Char -> a -> a) -> String -> a
-    foldLine accumValue fn line = go' 0 line accumValue
+    foldline :: a -> (Int -> Char -> a -> a) -> String -> a
+    foldline accumvalue fn line = go' 0 line accumvalue
       where
         go' _ [] acc = acc
-        go' itemIdx (c : rest) acc = go' (itemIdx + 1) rest (fn itemIdx c acc)
+        go' itemidx (c : rest) acc = go' (itemidx + 1) rest (fn itemidx c acc)
