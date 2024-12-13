@@ -1,10 +1,14 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use camelCase" #-}
+
 module Day7 where
 
 import Control.Monad (replicateM)
 import Data.List.Split (splitOn)
 import Data.Maybe (catMaybes)
 
-readinput = do
+read_input = do
   input <- readFile "app/day7input.txt"
   let aslines = lines input
       linessplit =
@@ -18,28 +22,19 @@ readinput = do
 
 combinations ns = replicateM (length ns - 1)
 
-reduceline _ [] _ = False
-reduceline target [x] _ = target == x
-reduceline _ _ [] = False
-reduceline target (a : b : rest) (f : rest') = (f a b <= target) && reduceline target (f a b : rest) rest'
+reduce_line _ [] _ = False
+reduce_line target [x] _ = target == x
+reduce_line _ _ [] = False
+reduce_line target (a : b : rest) (f : rest') = (f a b <= target) && reduce_line target (f a b : rest) rest'
 
 join' a b = read (show a ++ show b) :: Int
 
--- testline (result, nums) =
---   let possResults = mapMaybe (reduceline result nums) (combinations (length nums - 1) [(*), (+)])
---    in result `elem` possResults
-
--- testline2 (result, nums) =
---   let possResults = mapMaybe (reduceline result nums) (combinations (length nums - 1) [(*), (+), concat'])
---       concat' a b = read $ show a ++ show b :: Int
---    in result `elem` possResults
-
-part1 = do
-  inputs <- readinput
-  let corrects = filter (\(t, nums) -> let opcombs = combinations nums [(*), (+)] in foldl (\bool ops -> bool || reduceline t nums ops) False opcombs) inputs
+part_1 = do
+  inputs <- read_input
+  let corrects = filter (\(t, nums) -> let opcombs = combinations nums [(*), (+)] in foldl (\bool ops -> bool || reduce_line t nums ops) False opcombs) inputs
   pure $ sum $ map fst corrects
 
-part2 = do
-  inputs <- readinput
-  let corrects = filter (\(t, nums) -> let opcombs = combinations nums [(*), (+), join'] in foldl (\bool ops -> bool || reduceline t nums ops) False opcombs) inputs
+part_2 = do
+  inputs <- read_input
+  let corrects = filter (\(t, nums) -> let opcombs = combinations nums [(*), (+), join'] in foldl (\bool ops -> bool || reduce_line t nums ops) False opcombs) inputs
   pure $ sum $ map fst corrects

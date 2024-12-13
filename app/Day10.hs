@@ -1,5 +1,7 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 
+{-# HLINT ignore "Use camelCase" #-}
+
 module Day10 where
 
 import Data.Bifunctor (Bifunctor (second))
@@ -12,16 +14,16 @@ import Debug.Trace (trace)
 import Utils (foldinput)
 
 -- part1 :: IO Int
-part1 = do
-  terrain <- readinput
-  pure $ length $ nub $ validpaths terrain (trailheads' terrain) []
+part_1 = do
+  terrain <- read_input
+  pure $ length $ nub $ valid_paths terrain (trail_heads' terrain) []
 
-part2 :: IO Int
-part2 = do
-  terrain <- readinput
-  pure $ length $ validpaths terrain (trailheads' terrain) []
+part_2 :: IO Int
+part_2 = do
+  terrain <- read_input
+  pure $ length $ valid_paths terrain (trail_heads' terrain) []
 
-readinput = do
+read_input = do
   input <- readFile "app/day10input.txt"
   pure $ foldinput M.empty f input
   where
@@ -36,33 +38,33 @@ type Terrain = M.Map Coord Elevation
 
 type A = (Int, Int, Int)
 
-getneighbors :: Int -> Coord -> [Coord]
-getneighbors max (x, y) = [(x, y) | (x, y) <- [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)], x >= 0 && x <= max && y >= 0 && y <= max]
+get_neighbors :: Int -> Coord -> [Coord]
+get_neighbors max (x, y) = [(x, y) | (x, y) <- [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)], x >= 0 && x <= max && y >= 0 && y <= max]
 
-getmax :: Terrain -> Int
-getmax terrain = fst . fst $ M.findMax terrain
+get_max :: Terrain -> Int
+get_max terrain = fst . fst $ M.findMax terrain
 
-formatterrain :: Terrain -> [A]
-formatterrain terrain = sort $ map f $ M.toList terrain
+format_terrain :: Terrain -> [A]
+format_terrain terrain = sort $ map f $ M.toList terrain
   where
     f (c, e) = (e, fst c, snd c)
 
-validpaths :: Terrain -> [(A, A)] -> [(A, A)] -> [(A, A)]
-validpaths ter [] res = res
-validpaths ter (h : rest) acc =
+valid_paths :: Terrain -> [(A, A)] -> [(A, A)] -> [(A, A)]
+valid_paths ter [] res = res
+valid_paths ter (h : rest) acc =
   let ((id, x2, y2), (s, x1, y1)) = h
       newlist = neighbors ++ rest
-      neighbors = map (\i -> (i, snd h)) $ foldl f [] $ map (\k -> (k, M.lookup k ter)) $ getneighbors (getmax ter) (x2, y2)
+      neighbors = map (\i -> (i, snd h)) $ foldl f [] $ map (\k -> (k, M.lookup k ter)) $ get_neighbors (get_max ter) (x2, y2)
       f b (_, Nothing) = b
       f b (k, Just v) = if v == id + 1 then (v, fst k, snd k) : b else b
    in if id == 9
-        then validpaths ter rest (acc ++ [h])
-        else validpaths ter newlist acc
+        then valid_paths ter rest (acc ++ [h])
+        else valid_paths ter newlist acc
 
-trailheads :: Terrain -> [A]
-trailheads ter = map (\(k, v) -> (v, fst k, snd k)) $ M.toList $ M.filterWithKey (\k v -> v == 0) ter
+trail_heads :: Terrain -> [A]
+trail_heads ter = map (\(k, v) -> (v, fst k, snd k)) $ M.toList $ M.filterWithKey (\k v -> v == 0) ter
 
-trailheads' ter = map (\c -> (c, c)) $ trailheads ter
+trail_heads' ter = map (\c -> (c, c)) $ trail_heads ter
 
 -- test
 

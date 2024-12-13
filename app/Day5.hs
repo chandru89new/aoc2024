@@ -1,44 +1,48 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use camelCase" #-}
+
 module Day5 where
 
 import Data.Foldable (Foldable (foldl'))
 import Data.List (intercalate)
 import Data.List.Split
 
-readinput = do
+read_input = do
   rules <- readFile "app/day5input-rules.txt" >>= pure . lines
   updates <- readFile "app/day5input-updates.txt" >>= pure . lines
   return (rules, updates)
 
-mkupdatepairs updatesstr = reverse $ go [] $ splitOn "," updatesstr
+mk_update_pairs updates_str = reverse $ go [] $ splitOn "," updates_str
   where
     go acc (a : b : rest) = go ((a ++ "|" ++ b) : acc) (b : rest)
     go acc _ = acc
 
-isvalidupdate rules updateline =
-  foldl' f True (mkupdatepairs updateline)
+is_valid_update rules update_line =
+  foldl' f True (mk_update_pairs update_line)
   where
-    f bool updatepair = bool && updatepair `elem` rules
+    f bool update_pair = bool && update_pair `elem` rules
 
-getmiddle updateline =
-  let numslist = map (read :: String -> Int) (splitOn "," updateline)
-   in numslist !! (length numslist `div` 2)
+get_middle update_line =
+  let nums_list = map (read :: String -> Int) (splitOn "," update_line)
+   in nums_list !! (length nums_list `div` 2)
 
-part1 = do
-  (ruleslist, updateslist) <- readinput
-  return $ sum $ map getmiddle $ filter (isvalidupdate ruleslist) updateslist
+part_1 = do
+  (rules_list, updates_list) <- read_input
+  return $ sum $ map get_middle $ filter (is_valid_update rules_list) updates_list
 
-mkupdatelinevalid rules updateline
-  | isvalidupdate rules updateline = updateline
-  | otherwise = fixline [] (splitOn "," updateline)
+mk_update_line_valid rules update_line
+  | is_valid_update rules update_line = update_line
+  | otherwise = fix_line [] (splitOn "," update_line)
   where
-    fixline acc (a : b : rest) = fixline (acc ++ [fst (fixed a b)]) (snd (fixed a b) : rest)
-    fixline acc [x] = mkupdatelinevalid rules $ joinline (acc ++ [x])
-    fixline acc [] = mkupdatelinevalid rules $ joinline acc
+    fix_line acc (a : b : rest) = fix_line (acc ++ [fst (fixed a b)]) (snd (fixed a b) : rest)
+    fix_line acc [x] = mk_update_line_valid rules $ join_line (acc ++ [x])
+    fix_line acc [] = mk_update_line_valid rules $ join_line acc
 
     fixed a b = if (a ++ "|" ++ b) `elem` rules then (a, b) else (b, a)
 
-    joinline = intercalate ","
+    join_line = intercalate ","
 
-part2 = do
-  (ruleslist, updateslist) <- readinput
-  return $ sum $ map (getmiddle . mkupdatelinevalid ruleslist) $ filter (not . isvalidupdate ruleslist) updateslist
+part_2 = do
+  (rules_list, updates_list) <- read_input
+  return $ sum $ map (get_middle . mk_update_line_valid rules_list) $ filter (not . is_valid_update rules_list) updates_list

@@ -1,11 +1,14 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use camelCase" #-}
+
 module Day1 where
 
 import Data.List
 
-tuplesort :: ([Int], [Int]) -> ([Int], [Int])
-tuplesort (as, bs) = (sort as, sort bs)
+tuple_sort :: ([Int], [Int]) -> ([Int], [Int])
+tuple_sort (as, bs) = (sort as, sort bs)
 
-aspairs (as, bs) = go [] as bs
+as_pairs (as, bs) = go [] as bs
   where
     go acc [] _ = acc
     go acc _ [] = acc
@@ -16,17 +19,17 @@ diffs xs = go [] xs
     go acc [] = acc
     go acc ((a, b) : rest) = go (abs (a - b) : acc) rest
 
-getsimcore xs x = (* x) $ length $ filter (== x) xs
+get_sim_core xs x = (* x) $ length $ filter (== x) xs
 
-simscores (as, bs) = map (getsimcore bs) as
+sim_scores (as, bs) = map (get_sim_core bs) as
 
-part1 = do
+part_1 = do
   input <- readFile "app/day1input.txt"
   return
     $ sum
     $ diffs
-    $ aspairs
-    $ tuplesort
+    $ as_pairs
+    $ tuple_sort
     $ foldl
       ( \(as, bs) ns -> case map read ns of
           (a : b : _) -> (a : as, b : bs)
@@ -36,12 +39,12 @@ part1 = do
     $ map words
     $ lines input
 
-part2 = do
+part_2 = do
   input <- readFile "app/day1input.txt"
   return
     $ sum
-    $ simscores
-    $ tuplesort
+    $ sim_scores
+    $ tuple_sort
     $ foldl
       ( \(as, bs) ns -> case map read ns of
           (a : b : _) -> (a : as, b : bs)

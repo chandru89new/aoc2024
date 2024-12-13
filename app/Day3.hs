@@ -1,5 +1,8 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE QuasiQuotes #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use camelCase" #-}
 
 module Day3 where
 
@@ -7,7 +10,7 @@ import Data.List (isInfixOf)
 import Text.RawString.QQ
 import Text.Regex.PCRE
 
-getmatches teststring = case (teststring =~ [r|mul\((-?\d+),(-?\d+)\)|]) :: [[String]] of
+get_matches test_string = case (test_string =~ [r|mul\((-?\d+),(-?\d+)\)|]) :: [[String]] of
   [] -> []
   xs -> map f xs
     where
@@ -16,7 +19,7 @@ getmatches teststring = case (teststring =~ [r|mul\((-?\d+),(-?\d+)\)|]) :: [[St
 
 data Instruction = Do | Dont | Mul (Int, Int) | Invalid deriving (Show, Eq)
 
-getinstructions str = case (str =~ [r|(mul\((-?\d+),(-?\d+)\)|(do\(\))|(don't\(\)))|]) :: [[String]] of
+get_instructions str = case (str =~ [r|(mul\((-?\d+),(-?\d+)\)|(do\(\))|(don't\(\)))|]) :: [[String]] of
   [] -> []
   xs -> map f xs
     where
@@ -27,18 +30,18 @@ getinstructions str = case (str =~ [r|(mul\((-?\d+),(-?\d+)\)|(do\(\))|(don't\(\
         | otherwise = Invalid
       f _ = Invalid
 
-part1 = do
+part_1 = do
   input <- readFile "app/day3input.txt"
-  return $ foldl f 0 (getinstructions input)
+  return $ foldl f 0 (get_instructions input)
   where
     f acc (Mul (a, b)) = acc + a * b
     f acc _ = acc
 
-part2 = do
+part_2 = do
   input <- readFile "app/day3input.txt"
-  return $ fst $ foldl f (0, True) (getinstructions input)
+  return $ fst $ foldl f (0, True) (get_instructions input)
   where
-    f (acc, shouldcalc) (Mul (a, b)) = if shouldcalc then (acc + a * b, shouldcalc) else (acc, shouldcalc)
+    f (acc, should_calc) (Mul (a, b)) = if should_calc then (acc + a * b, should_calc) else (acc, should_calc)
     f (acc, _) Dont = (acc, False)
     f (acc, _) Do = (acc, True)
     f (acc, s) _ = (acc, s)

@@ -22,47 +22,47 @@ main = do
   day <- pure $ read l :: IO Int
   case day of
     1 -> do
-      p1 <- D1.part1
-      p2 <- D1.part2
+      p1 <- D1.part_1
+      p2 <- D1.part_2
       showResults p1 p2
     2 -> do
-      p1 <- D2.part1
-      p2 <- D2.part2
+      p1 <- D2.part_1
+      p2 <- D2.part_2
       showResults p1 p2
     3 -> do
-      p1 <- D3.part1
-      p2 <- D3.part2
+      p1 <- D3.part_1
+      p2 <- D3.part_2
       showResults p1 p2
     4 -> do
-      p1 <- D4.part1
-      p2 <- D4.part2
+      p1 <- D4.part_1
+      p2 <- D4.part_2
       showResults p1 p2
     5 -> do
-      p1 <- D5.part1
-      p2 <- D5.part2
+      p1 <- D5.part_1
+      p2 <- D5.part_2
       showResults p1 p2
     6 -> do
-      p1 <- D6.part1
-      p2 <- D6.part2
+      p1 <- D6.part_1
+      p2 <- D6.part_2
       showResults p1 p2
     7 -> do
-      p1 <- D7.part1
-      p2 <- D7.part2
+      p1 <- D7.part_1
+      p2 <- D7.part_2
       showResults p1 p2
     8 -> do
-      p1 <- D8.part1
-      p2 <- D8.part2
+      p1 <- D8.part_1
+      p2 <- D8.part_2
       showResults p1 p2
     9 -> do
-      p1 <- D9.part1
-      p2 <- D9.part2
+      p1 <- D9.part_1
+      p2 <- D9.part_2
       showResults p1 p2
     10 -> do
-      p1 <- D10.part1
-      p2 <- D10.part2
+      p1 <- D10.part_1
+      p2 <- D10.part_2
       showResults p1 p2
     _ -> putStrLn "Invalid day"
 
 showResults p1 p2 = do
-  putStrLn $ "part1: " ++ show p1
-  putStrLn $ "part2: " ++ show p2
+  putStrLn $ "part_1: " ++ show p1
+  putStrLn $ "part_2: " ++ show p2
