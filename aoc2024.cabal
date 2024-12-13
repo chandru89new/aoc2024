@@ -70,6 +70,7 @@ executable aoc2024
                     Day7,
                     Day8,
                     Day9,
+                    Day10,
                     Utils
 
     -- LANGUAGE extensions used by modules in this package.

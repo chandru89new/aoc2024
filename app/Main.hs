@@ -2,6 +2,7 @@ module Main where
 
 import Control.Monad (void)
 import qualified Day1 as D1
+import qualified Day10 as D10
 import qualified Day2 as D2
 import qualified Day3 as D3
 import qualified Day4 as D4
@@ -55,6 +56,10 @@ main = do
     9 -> do
       p1 <- D9.part1
       p2 <- D9.part2
+      showResults p1 p2
+    10 -> do
+      p1 <- D10.part1
+      p2 <- D10.part2
       showResults p1 p2
     _ -> putStrLn "Invalid day"
 

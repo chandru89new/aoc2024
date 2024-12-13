@@ -1,5 +1,6 @@
 module Day9 where
 
+import Control.Applicative (Applicative (liftA2))
 import Control.Monad (join)
 import Data.Char (isDigit)
 import Data.List (elemIndex, find, findIndex, intercalate, maximumBy, nub)
@@ -63,10 +64,6 @@ getchecksum' = go 0 0
     go idx acc [] = acc
     go idx acc (h : rest) = if h == "." then go (idx + 1) acc rest else go (idx + 1) (acc + idx * read h) rest
 
--- format as: [(0,2),(".",3),(1,3),(".",3)...(9,2)]
--- find last highest file ID: (9,2)
--- see if there's any contiguous space with (".", a) where a >= snd (9,2).
--- if yes, replace as [(0,2),(9,2),(".",a-2),....(".",2)]
 data B = Empty | Fid Int deriving (Eq, Ord, Show)
 
 formatinput str = reverse (filter (\(b, v) -> not (b == Empty && v == 0)) (go 0 [] str))
@@ -78,9 +75,7 @@ formatinput str = reverse (filter (\(b, v) -> not (b == Empty && v == 0)) (go 0 
 
 findemptyslotwithidx nspace list = result
   where
-    result = case (a, b) of
-      (Just x, Just y) -> Just (x, y)
-      _ -> Nothing
+    result = liftA2 (,) a b
     a = find f list
     b = findIndex f list
     f (a, n) = case a of
@@ -112,7 +107,7 @@ defrag' list startMax
   | startMax < 0 = list
   | otherwise = defrag' (defragonce' startMax list) (startMax - 1)
 
-showdefrag l = go [] l
+showdefrag = go []
   where
     go acc [] = acc
     go acc (h : rest) = go (acc ++ show' h) rest
