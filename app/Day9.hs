@@ -5,13 +5,7 @@
 module Day9 where
 
 import Control.Applicative (Applicative (liftA2))
-import Control.Monad (join)
-import Data.Char (isDigit)
-import Data.List (elemIndex, find, findIndex, intercalate, maximumBy, nub)
-import Data.List.Split (splitOn)
-import Data.Maybe (fromMaybe)
-import Debug.Trace (trace)
-import Utils (foldinput)
+import Data.List (elemIndex, find, findIndex, maximumBy, nub)
 
 part_1 :: IO Int
 part_1 = do

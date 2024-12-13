@@ -1,14 +1,17 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use camelCase" #-}
 module Utils where
 
-foldinput :: a -> (Int -> Int -> Char -> a -> a) -> String -> a
-foldinput initvalue updatefn str = go 0 initvalue $ lines str
+fold_input :: a -> (Int -> Int -> Char -> a -> a) -> String -> a
+fold_input init_value update_fn str = go 0 init_value $ lines str
   where
     -- go :: Int -> a -> [String] -> a
     go _ acc [] = acc
-    go lineidx acc (line : rest) = go (lineidx + 1) (foldline acc (updatefn lineidx) line) rest
+    go line_idx acc (line : rest) = go (line_idx + 1) (fold_line acc (update_fn line_idx) line) rest
 
-    foldline :: a -> (Int -> Char -> a -> a) -> String -> a
-    foldline accumvalue fn line = go' 0 line accumvalue
+    fold_line :: a -> (Int -> Char -> a -> a) -> String -> a
+    fold_line accum_value fn line = go' 0 line accum_value
       where
         go' _ [] acc = acc
-        go' itemidx (c : rest) acc = go' (itemidx + 1) rest (fn itemidx c acc)
+        go' item_idx (c : rest) acc = go' (item_idx + 1) rest (fn item_idx c acc)

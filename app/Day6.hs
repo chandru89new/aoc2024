@@ -7,11 +7,11 @@ module Day6 where
 import Control.Concurrent.Async (mapConcurrently)
 import Data.List (nub)
 import qualified Data.Map as M
-import Utils (foldinput)
+import Utils (fold_input)
 
 read_input = do
   input <- readFile "app/day6input.txt"
-  pure $ foldinput ((0, 0, '>'), M.empty) f input
+  pure $ fold_input ((0, 0, '>'), M.empty) f input
   where
     f x y c (g, terrain) = (if c `elem` ['^', '>', 'v', '<'] then (x, y, c) else g, M.insert (x, y) c terrain)
 

@@ -4,13 +4,11 @@
 
 module Day8 where
 
-import Data.Foldable (traverse_)
 import Data.Function (on)
-import Data.List (groupBy, intercalate, nub, sortBy)
+import Data.List (groupBy, intercalate, sortBy)
 import Data.List.Split (chunksOf)
 import qualified Data.Map as M
-import Debug.Trace (trace)
-import Utils (foldinput)
+import Utils (fold_input)
 
 part_1 = do
   terrain <- read_input
@@ -32,7 +30,7 @@ print_terrain terrain = do
 
 read_input = do
   input <- readFile "app/day8input.txt"
-  pure $ foldinput M.empty f input
+  pure $ fold_input M.empty f input
   where
     f x y = M.insert (x, y)
 

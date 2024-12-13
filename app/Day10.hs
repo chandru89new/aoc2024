@@ -4,14 +4,9 @@
 
 module Day10 where
 
-import Data.Bifunctor (Bifunctor (second))
-import Data.Function ((&))
 import Data.List (nub, sort)
 import qualified Data.Map as M
-import Data.Maybe (fromMaybe)
-import Data.Traversable (for)
-import Debug.Trace (trace)
-import Utils (foldinput)
+import Utils (fold_input)
 
 -- part1 :: IO Int
 part_1 = do
@@ -25,7 +20,7 @@ part_2 = do
 
 read_input = do
   input <- readFile "app/day10input.txt"
-  pure $ foldinput M.empty f input
+  pure $ fold_input M.empty f input
   where
     f x y c = M.insert (x, y) (read [c] :: Int)
 

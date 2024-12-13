@@ -1,6 +1,5 @@
 module Main where
 
-import Control.Monad (void)
 import qualified Day1 as D1
 import qualified Day10 as D10
 import qualified Day2 as D2
@@ -11,7 +10,6 @@ import qualified Day6 as D6
 import qualified Day7 as D7
 import qualified Day8 as D8
 import qualified Day9 as D9
-import System.Environment (getArgs)
 import System.IO
 
 main :: IO ()
